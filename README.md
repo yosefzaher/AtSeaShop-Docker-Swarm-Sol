@@ -2,6 +2,8 @@
 
 A full-stack e-commerce sample application containerized with Docker for local development and Docker Swarm for clustered deployment. This repository demonstrates how to package a React frontend, a Java/Spring Boot backend, a PostgreSQL database, an Nginx reverse proxy, and a payment gateway simulation into a production-style containerized architecture.
 
+![AtSea Docker Swarm Solution](AtSeaShop_Docker_Swarm_Solution.png)
+
 The project is designed to show:
 - how to build and run multi-service applications with Docker Compose
 - how to deploy the same stack on Docker Swarm using services, secrets, networks, and placement constraints
