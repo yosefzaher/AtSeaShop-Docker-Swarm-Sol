@@ -5,7 +5,7 @@ services:
   # 1. Reverse Proxy Service (Nginx / HTTPS Entry Point)
   # ------------------------------------------------------------
   reverse_proxy:
-    image: zaher2004/atsea-reverse-proxy:v1.0
+    image: zaher2004/atsea-reverse-proxy:v1.1
     ports:
       - "80:80"     # Standard HTTP Port
       - "443:443"   # Standard HTTPS Port (Fixed from 433)
