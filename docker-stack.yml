@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.8"
 
 services:
   # ------------------------------------------------------------
@@ -15,9 +15,9 @@ services:
       - source: revprox_cert
         target: revprox_cert
     networks:
-      - front-tier:
+      front-tier:
         aliases:
-          - reverse_proxy   
+          - reverse_proxy
 
   # ------------------------------------------------------------
   # 2. Database Service (PostgreSQL Core DB)
@@ -27,13 +27,13 @@ services:
     environment:
       POSTGRES_USER: gordonuser
       POSTGRES_DB_PASSWORD_FILE: /run/secrets/postgres_password
-      POSTGRES_DB: atsea    
+      POSTGRES_DB: atsea
     secrets:
       - postgres_password
     networks:
-      - back-tier:
+      back-tier:
         aliases:
-          - atsea       
+          - atsea
     deploy:
       placement:
         constraints:
@@ -46,17 +46,17 @@ services:
   appserver:
     image: zaher2004/atsea-appserver:v1.0
     networks:
-      - front-tier:
+      front-tier:
         aliases:
-          - appserver       
-      - back-tier:
+          - appserver
+      back-tier:
         aliases:
-          - appserver       
-      - payment:
+          - appserver
+      payment:
         aliases:
-          - appserver       
+          - appserver
     secrets:
-      - postgres_password  
+      - postgres_password
     deploy:
       replicas: 2
       update_config:
@@ -80,9 +80,9 @@ services:
       - source: staging_token
         target: payment_token
     networks:
-      - payment:
+      payment:
         aliases:
-          - payment_gateway        
+          - payment_gateway
     deploy:
       update_config:
         failure_action: rollback
@@ -90,8 +90,8 @@ services:
         constraints:
           - 'node.role == worker'
           # Enforce placement only on PCI-DSS labeled nodes
-          - 'node.labels.pcidss == yes'  
-  
+          - 'node.labels.pcidss == yes'
+
   # ------------------------------------------------------------
   # 5. Swarm Visualizer Service (Cluster Topology Dashboard)
   # ------------------------------------------------------------
