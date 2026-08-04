@@ -15,7 +15,9 @@ services:
       - source: revprox_cert
         target: revprox_cert
     networks:
-      - front-tier
+      - front-tier:
+        aliases:
+          - reverse_proxy   
 
   # ------------------------------------------------------------
   # 2. Database Service (PostgreSQL Core DB)
@@ -29,7 +31,9 @@ services:
     secrets:
       - postgres_password
     networks:
-      - back-tier
+      - back-tier:
+        aliases:
+          - atsea       
     deploy:
       placement:
         constraints:
@@ -42,9 +46,15 @@ services:
   appserver:
     image: zaher2004/atsea-appserver:v1.0
     networks:
-      - front-tier
-      - back-tier
-      - payment
+      - front-tier:
+        aliases:
+          - appserver       
+      - back-tier:
+        aliases:
+          - appserver       
+      - payment:
+        aliases:
+          - appserver       
     secrets:
       - postgres_password  
     deploy:
@@ -70,7 +80,9 @@ services:
       - source: staging_token
         target: payment_token
     networks:
-      - payment
+      - payment:
+        aliases:
+          - payment_gateway        
     deploy:
       update_config:
         failure_action: rollback
